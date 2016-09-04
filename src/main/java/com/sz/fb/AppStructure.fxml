@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.web.*?>
+<?import javafx.scene.control.*?>
+<?import java.lang.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.layout.AnchorPane?>
+
+<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="748.0" prefWidth="1166.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.sz.fb.FXController">
+   <top>
+      <HBox prefHeight="26.0" prefWidth="1166.0" BorderPane.alignment="CENTER">
+         <children>
+            <Button fx:id="goButton" mnemonicParsing="false" onAction="#goButtonClick" text="Go" />
+            <Button fx:id="findButton" mnemonicParsing="false" onAction="#findButtonClick" text="Find" />
+            <Button fx:id="saveButton" mnemonicParsing="false" onAction="#saveButtonClick" text="Save" />
+            <TextField fx:id="urlField" prefHeight="31.0" prefWidth="567.0" />
+         </children>
+      </HBox>
+   </top>
+   <center>
+      <WebView fx:id="webView" prefHeight="200.0" prefWidth="200.0" BorderPane.alignment="CENTER" />
+   </center>
+</BorderPane>

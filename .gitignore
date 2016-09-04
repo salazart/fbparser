@@ -1,0 +1,9 @@
+.git
+.gradle
+.project
+.settings
+.classpath
+
+/bin/*
+
+config.properties
