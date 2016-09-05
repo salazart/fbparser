@@ -1,5 +1,7 @@
 package com.sz.fb.services;
 
+import java.util.List;
+
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.boot.MetadataSources;
@@ -26,7 +28,16 @@ public class HibernateTest {
 		session.save(new FbUser("0001", "Alex"));
 		session.save(new FbUser("0002", "Alexx"));
 		session.getTransaction().commit();
+//		session.close();
+		
+//		session = sessionFactory.openSession();
+		session.beginTransaction();
+		List<FbUser> fbUsers = (List<FbUser>) session.createQuery( "from FbUser" ).getResultList();
+		fbUsers.forEach(System.out::println);
+		session.getTransaction().commit();
 		session.close();
+		
+		sessionFactory.close();
 		
 	}
 }

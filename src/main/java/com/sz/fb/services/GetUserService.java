@@ -1,7 +1,6 @@
 package com.sz.fb.services;
 
 import java.io.BufferedReader;
-import java.io.DataOutputStream;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
@@ -16,6 +15,7 @@ import org.codehaus.jackson.map.ObjectMapper;
 import com.sz.fb.models.FbUser;
 
 public class GetUserService {
+	private static final String FB_ACCESS_TOKEN = "fbAccessToken";
 	private static final String USER_AGENT = "Mozilla/5.0";
 	private static final String URL = "https://graph.facebook.com/";
 	
@@ -31,7 +31,7 @@ public class GetUserService {
 	private Map<String, String> getParameters(){
 		Map<String, String> parameters = new HashMap<>();
 		parameters.put("fields", "id,name");
-		parameters.put("access_token", properties.getProperty("fbAccessToken"));
+		parameters.put("access_token", properties.getProperty(FB_ACCESS_TOKEN));
 		return parameters;
 	}
 	

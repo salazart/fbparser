@@ -1,31 +1,62 @@
 package com.sz.fb.models;
 
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.Id;
+import javax.persistence.Table;
+
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 @JsonIgnoreProperties(ignoreUnknown = true)
+@Entity
+@Table( name = "FB_USER" )
 public class FbUser {
+	
 	@JsonProperty("id")
+	@Id
+	@Column(name = "id")
 	private String id;
 	
 	@JsonProperty("name")
+	@Column(name = "name")
 	private String name;
+	
+	@JsonIgnore
+	@Column(name = "phone")
+	private String phone;
 	
 	public FbUser() {
 	}
 
 	@JsonIgnore
 	public FbUser(String id) {
-		super();
-		this.setId(id);
+		setId(id);
 	}
 
 	@JsonIgnore
 	public FbUser(String id, String name) {
-		super();
-		this.setId(id);
-		this.setName(name);
+		this(id);
+		setName(name);
+	}
+	
+	@JsonIgnore
+	public FbUser(String id, String name, String phone) {
+		this(id, name);
+		setPhone(phone);
+	}
+	
+	public String getPhone() {
+		return phone;
+	}
+
+	public void setPhone(String phone) {
+		this.phone = phone;
+	}
+
+	public String toString(){
+		return "id=" + getId() + " name=" + getName();
 	}
 
 	public String getName() {
