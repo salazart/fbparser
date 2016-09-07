@@ -12,7 +12,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 @JsonIgnoreProperties(ignoreUnknown = true)
 @Entity
 @Table( name = "FB_USER" )
-public class FbUser {
+public class FbUser implements IEntity{
 	
 	@JsonProperty("id")
 	@Id
