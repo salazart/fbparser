@@ -14,14 +14,14 @@ public class HibernateTest {
 //				.build();
 		
 		
-		Session session = HibernateUtil.openSession();
+		Session session = HibernateUtil.getInstance().getSessionFactory().openSession();
 		session.beginTransaction();
 		session.save(new FbUser("0001", "Alex"));
 		session.save(new FbUser("0002", "Alexx"));
 		session.getTransaction().commit();
 		session.close();
 		
-		session = HibernateUtil.openSession();
+		session = HibernateUtil.getInstance().getSessionFactory().openSession();
 		session.beginTransaction();
 		List<FbUser> fbUsers = (List<FbUser>) session.createQuery( "from FbUser" ).getResultList();
 		fbUsers.forEach(System.out::println);

@@ -1,6 +1,5 @@
 package com.sz.fb;
 
-import java.io.FileInputStream;
 import java.io.IOException;
 import java.util.Properties;
 
@@ -8,6 +7,7 @@ import org.w3c.dom.Document;
 import org.w3c.dom.html.HTMLInputElement;
 
 import com.sz.fb.services.ChangeListenerService;
+import com.sz.fb.services.FindSaveTask;
 import com.sz.fb.services.FindService;
 import com.sz.fb.services.HtmlService;
 
@@ -71,12 +71,16 @@ public class FXController {
 		System.out.println("find");
 		Document document = webView.getEngine().getDocument();
 		
-		HTMLInputElement findElement = (HTMLInputElement) document.getElementById("q");
-		if(findElement != null){
-			findElement.setValue("380977776080");
-			findElement.focus();
-		}
-		System.out.println(findElement.getName());
-		System.out.println(findElement.getTextContent());
+//		HTMLInputElement findElement = (HTMLInputElement) document.getElementById("q");
+//		if(findElement != null){
+//			findElement.setValue("380977776080");
+//			findElement.focus();
+//		}
+		Thread thread = null;
+		thread = new Thread(new FindSaveTask(thread, webView));
+		thread.start();
+//		FindService findService = new FindService(document);
+//		String link = findService.getUserLink();
+//		System.out.println(link);
 	}
 }

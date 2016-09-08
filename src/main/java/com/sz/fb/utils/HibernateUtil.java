@@ -1,14 +1,28 @@
 package com.sz.fb.utils;
 
-import org.hibernate.Session;
+import java.util.Properties;
+
 import org.hibernate.SessionFactory;
 import org.hibernate.cfg.Configuration;
 
 public class HibernateUtil {
-	private static SessionFactory sessionFactory;
-	private static Session session;
+	private static volatile HibernateUtil instance;
+	private static volatile SessionFactory sessionFactory;
 
-	private synchronized static void init() {
+	 public static HibernateUtil getInstance() {
+		 HibernateUtil localInstance = instance;
+			if (localInstance == null) {
+				synchronized (HibernateUtil.class) {
+					localInstance = instance;
+					if (localInstance == null) {
+						instance = localInstance = new HibernateUtil();
+					}
+				}
+			}
+			return localInstance;
+		}
+	
+	private HibernateUtil() {
 		if (sessionFactory == null) {
 			try {
 				sessionFactory = new Configuration().configure().buildSessionFactory();
@@ -17,13 +31,9 @@ public class HibernateUtil {
 			}
 		}
 	}
-
-	public static Session openSession() {
-		init();
-		if(session == null || session.isConnected()){
-			session = sessionFactory.openSession();
-		}
-		return session;
+	 
+	public SessionFactory getSessionFactory() {
+		return sessionFactory;
 	}
 
 	public static void release() {
