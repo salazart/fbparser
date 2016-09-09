@@ -18,16 +18,18 @@ public class FindService {
 	}
 	
 	public String getUserLink(){
-		NodeList nodeList = document.getElementsByTagName(LI_TAG);
-		for (int i = 0; i < nodeList.getLength(); ++i) {
-			Node node =  nodeList.item(i);
-			NamedNodeMap attribute = node.getAttributes();
-			Node attributeValue = attribute.getNamedItem(CLASS_ATTRIBUTE);
-			if(attributeValue != null && USER_SELECTED_PARAM.equals(attributeValue.getTextContent())) {
-				NodeList childNodes = node.getChildNodes();
-				for (int j = 0; j < childNodes.getLength(); j++) {
-					Node nodeLink = childNodes.item(j).getAttributes().getNamedItem(HREF_ATTRIBUTE);
-					return nodeLink.getTextContent();
+		if(document != null){
+			NodeList nodeList = document.getElementsByTagName(LI_TAG);
+			for (int i = 0; i < nodeList.getLength(); ++i) {
+				Node node =  nodeList.item(i);
+				NamedNodeMap attribute = node.getAttributes();
+				Node attributeValue = attribute.getNamedItem(CLASS_ATTRIBUTE);
+				if(attributeValue != null && USER_SELECTED_PARAM.equals(attributeValue.getTextContent())) {
+					NodeList childNodes = node.getChildNodes();
+					for (int j = 0; j < childNodes.getLength(); j++) {
+						Node nodeLink = childNodes.item(j).getAttributes().getNamedItem(HREF_ATTRIBUTE);
+						return nodeLink.getTextContent();
+					}
 				}
 			}
 		}

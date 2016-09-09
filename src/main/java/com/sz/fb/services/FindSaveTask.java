@@ -1,50 +1,65 @@
 package com.sz.fb.services;
 
+import java.util.TimerTask;
+
+import org.w3c.dom.Document;
 import org.w3c.dom.html.HTMLInputElement;
 
+import com.sz.fb.dao.impl.FbTargetPhoneService;
+import com.sz.fb.dao.impl.FbUserService;
+import com.sz.fb.models.FbTargetPhone;
+import com.sz.fb.utils.HibernateUtil;
+
+import javafx.application.Platform;
 import javafx.scene.web.WebView;
 
-public class FindSaveTask implements Runnable{
-
+public class FindSaveTask extends TimerTask{
 	private WebView webView;
-	private Thread thread;
+	private FbTargetPhone fbTargetPhone;
 	
-	private boolean insertedPhone = false;
+	private static boolean insertedPhone = false;
 	
-	public FindSaveTask(Thread thread, WebView webView) {
+	public FindSaveTask(WebView webView) {
 		super();
 		this.webView = webView;
-		this.thread = thread;
 	}
 
 	@Override
 	public void run() {
-		System.out.println("Start thread");
-		while(true){
-			System.out.println("Start loop");
-			if(!insertedPhone){
-				insertPhone();
+		Platform.runLater(new Runnable() {
+			public void run() {
+				if (insertedPhone) {
+					saveFbUser();
+				} else {
+					insertPhone();
+				}
+			}
+		});
+	}
+	private void insertPhone() {
+		Document document = webView.getEngine().getDocument();
+		if(document != null){
+			HTMLInputElement findElement = (HTMLInputElement) document.getElementById("q");
+			if(findElement != null){
+				FbTargetPhoneService fbTargetPhoneService = new FbTargetPhoneService(HibernateUtil.getInstance().getSessionFactory());
+				fbTargetPhone = fbTargetPhoneService.getOne();
+				findElement.setValue(fbTargetPhone.getId());
+				findElement.focus();
 				insertedPhone = true;
 			}
-			
-			try {
-				thread.sleep(2000);
-			} catch (InterruptedException e) {
-				e.printStackTrace();
-			}
-			
-			FindService findService = new FindService(webView.getEngine().getDocument());
-			String link = findService.getUserLink();
-			System.out.println(link);
-			System.out.println("End loop");
 		}
 	}
-
-	private void insertPhone() {
-		HTMLInputElement findElement = (HTMLInputElement) webView.getEngine().getDocument().getElementById("q");
-		if(findElement != null){
-			findElement.setValue("380977776080");
-			findElement.focus();
+	
+	private void saveFbUser() {
+		FindService findService = new FindService(webView.getEngine().getDocument());
+		String textUrl = findService.getUserLink();
+		System.out.println(textUrl);
+		if (!textUrl.isEmpty()) {
+			insertedPhone = false;
+			FbUserService fbUserService = new FbUserService(HibernateUtil.getInstance().getSessionFactory());
+			fbUserService.saveFbUser(textUrl, "");
+			
+			fbTargetPhone.setUsed(true);
 		}
 	}
 

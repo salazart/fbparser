@@ -2,6 +2,8 @@ package com.sz.fb;
 
 import java.io.IOException;
 import java.util.Properties;
+import java.util.Timer;
+import java.util.TimerTask;
 
 import org.w3c.dom.Document;
 import org.w3c.dom.html.HTMLInputElement;
@@ -11,6 +13,7 @@ import com.sz.fb.services.FindSaveTask;
 import com.sz.fb.services.FindService;
 import com.sz.fb.services.HtmlService;
 
+import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.TextField;
@@ -18,6 +21,8 @@ import javafx.scene.web.WebView;
 
 public class FXController {
 	private static final String CONFIG_PROPERTIES = "config.properties";
+	private boolean insertedPhone = false;
+	
 	@FXML
 	private Button goButton;
 	@FXML
@@ -69,18 +74,9 @@ public class FXController {
 	@FXML
 	private void findButtonClick() {
 		System.out.println("find");
-		Document document = webView.getEngine().getDocument();
-		
-//		HTMLInputElement findElement = (HTMLInputElement) document.getElementById("q");
-//		if(findElement != null){
-//			findElement.setValue("380977776080");
-//			findElement.focus();
-//		}
-		Thread thread = null;
-		thread = new Thread(new FindSaveTask(thread, webView));
-		thread.start();
-//		FindService findService = new FindService(document);
-//		String link = findService.getUserLink();
-//		System.out.println(link);
+
+		Timer timer = new Timer();
+		timer.schedule(new FindSaveTask(webView), 1000, 10000);
 	}
+
 }

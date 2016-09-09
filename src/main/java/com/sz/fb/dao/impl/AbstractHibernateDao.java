@@ -19,13 +19,6 @@ public abstract class AbstractHibernateDao<T extends IEntity> implements IHibern
 				.getGenericSuperclass()).getActualTypeArguments()[0];
 		
 		this.sessionFactory = sessionFactory;
-//		if (this.sessionFactory == null) {
-//			try {
-//				this.sessionFactory = new Configuration().configure().buildSessionFactory();
-//			} catch (Exception ex) {
-//				ex.printStackTrace();
-//			}
-//		}
 	}
 	
 	@Override

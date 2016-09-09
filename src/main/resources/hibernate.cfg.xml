@@ -14,8 +14,9 @@
         
         <property name="show_sql">true</property>
         
-        <property name="hbm2ddl.auto">create</property>
         
-        <mapping class="com.sz.fb.models.FbUser"/>   
+        
+        <mapping class="com.sz.fb.models.FbUser"/>
+        <mapping class="com.sz.fb.models.FbTargetPhone"/>   
  	</session-factory>
 </hibernate-configuration>
