@@ -3,6 +3,7 @@ package com.sz.fb.services;
 import java.util.TimerTask;
 
 import org.w3c.dom.Document;
+import org.w3c.dom.html.HTMLElement;
 import org.w3c.dom.html.HTMLInputElement;
 
 import com.sz.fb.dao.impl.FbTargetPhoneService;
@@ -14,6 +15,7 @@ import javafx.application.Platform;
 import javafx.scene.web.WebView;
 
 public class FindSaveTask extends TimerTask{
+	private static final String FB_URL = "https://www.facebook.com/";
 	private WebView webView;
 	private FbTargetPhone fbTargetPhone;
 	
@@ -51,16 +53,25 @@ public class FindSaveTask extends TimerTask{
 	}
 	
 	private void saveFbUser() {
-		FindService findService = new FindService(webView.getEngine().getDocument());
+		Document document = webView.getEngine().getDocument();
+		
+		FindService findService = new FindService(document);
 		String textUrl = findService.getUserLink();
 		System.out.println(textUrl);
 		if (!textUrl.isEmpty()) {
-			insertedPhone = false;
 			FbUserService fbUserService = new FbUserService(HibernateUtil.getInstance().getSessionFactory());
-			fbUserService.saveFbUser(textUrl, "");
-			
-			fbTargetPhone.setUsed(true);
+			fbUserService.saveFbUser(textUrl, fbTargetPhone.getId());
 		}
+		insertedPhone = false;
+		//webView.getEngine().load(FB_URL);
+		HTMLInputElement findElement = (HTMLInputElement) document.getElementById("js_0");
+		if(findElement != null){
+			findElement.focus();
+		}
+		
+		fbTargetPhone.setUsed(true);
+		FbTargetPhoneService fbTargetPhoneService = new FbTargetPhoneService(HibernateUtil.getInstance().getSessionFactory());
+		fbTargetPhoneService.update(fbTargetPhone);
 	}
-
+	
 }

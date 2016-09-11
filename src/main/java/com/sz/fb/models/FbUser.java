@@ -56,7 +56,7 @@ public class FbUser implements IEntity{
 	}
 
 	public String toString(){
-		return "id=" + getId() + " name=" + getName();
+		return "id=" + getId() + " name=" + getName() + " phone=" + getPhone();
 	}
 
 	public String getName() {

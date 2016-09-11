@@ -9,20 +9,27 @@ import com.sz.fb.utils.HibernateUtil;
 public class FbTargetPhoneTest {
 	
 	public static void main(String[] args) {
-		FbTargetPhone fbTargetPhone = new FbTargetPhone("380935165187", false);
 		
 		FbTargetPhoneService fbTargetPhoneService = new FbTargetPhoneService(HibernateUtil.getInstance().getSessionFactory());
-		fbTargetPhoneService.save(fbTargetPhone);
 		
-		FbTargetPhone fbTargetPhone2 = fbTargetPhoneService.getOne();
-		System.out.println(fbTargetPhone2);
 		
-		fbTargetPhone2.setUsed(true);
-		fbTargetPhoneService.update(fbTargetPhone2);
+		for (int i = 0; i < 1000; i++) {
+			String phone = String.format("%07d", i);
+			String fullPhone = "38067" + phone;
+			
+			FbTargetPhone fbTargetPhone = new FbTargetPhone(fullPhone, false);
+			
+			fbTargetPhoneService.save(fbTargetPhone);
+		}
+		
+		
+//		fbTargetPhone2.setUsed(true);
+//		fbTargetPhoneService.update(fbTargetPhone2);
 		
 		List<FbTargetPhone> fbTargetPhones = fbTargetPhoneService.getAll();
 		System.out.println(fbTargetPhones);
 		
 		HibernateUtil.release();
 	}
+
 }

@@ -43,7 +43,7 @@ public class GetUserService {
 			
 			String result = new BufferedReader(new InputStreamReader(con.getInputStream())).lines()
 										.collect(Collectors.joining("\n"));
-
+			System.out.println(result);
 			ObjectMapper mapper = new ObjectMapper();
 			fbUser = mapper.readValue(result, FbUser.class);
 			

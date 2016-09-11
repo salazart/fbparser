@@ -28,23 +28,33 @@ public class FbUserService extends AbstractHibernateDao<FbUser> implements IHibe
 		fbUser.setPhone(phone);
 		
 		save(fbUser);
+		System.out.println("FbUser saved: " + fbUser);
 	}
 	
 	private String getIdOfUrl(String textUrl){
 		try {
 			URL url = new URL(textUrl);
-			String query = url.getQuery();
-			String idParam = Arrays.asList(query.split("&"))
-					.stream()
-					.filter(s -> s.contains("id"))
-					.findFirst()
-					.get();
 			
-			return idParam.replaceAll("id=", "");
+			return getUserId(url);
 		} catch (MalformedURLException e) {
 			System.out.println(e);
 			return "";
 		}
+	}
+	
+	private static String getUserId(URL url) {
+		String id = null;
+		if(url.getQuery().contains("id=")){
+			String idParam = Arrays.asList(url.getQuery().split("&"))
+					.stream()
+					.filter(s -> s.contains("id"))
+					.findFirst()
+					.get();
+			id = idParam.replaceAll("id=", "");
+		} else {
+			id = url.getPath().replaceAll("/", "");
+		}
+		return id;
 	}
 
 	private FbUser loadFbUser(String userId) {

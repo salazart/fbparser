@@ -10,19 +10,29 @@ public class UrlParserTest {
 
 	public static void main(String[] args) {
 		try {
-			URL url = new URL(URL_EXAMPLE2);
-			String query = url.getQuery();
-			String idParam = Arrays.asList(query.split("&"))
-					.stream()
-					.filter(s -> s.contains("id"))
-					.findFirst()
-					.get();
+			URL url = new URL(URL_EXAMPLE);
 			
-			String id = idParam.replaceAll("id=", "");
+			String id = getUserId(url);
+			
 			System.out.println(id);
 		} catch (MalformedURLException e) {
 			e.printStackTrace();
 		}
+	}
+
+	private static String getUserId(URL url) {
+		String id = null;
+		if(url.getQuery().contains("id=")){
+			String idParam = Arrays.asList(url.getQuery().split("&"))
+					.stream()
+					.filter(s -> s.contains("id"))
+					.findFirst()
+					.get();
+			id = idParam.replaceAll("id=", "");
+		} else {
+			id = url.getPath().replaceAll("/", "");
+		}
+		return id;
 	}
 
 }

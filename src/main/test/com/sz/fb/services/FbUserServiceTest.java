@@ -14,9 +14,9 @@ public class FbUserServiceTest {
 		FbUser fbUser1 = new FbUser("002", "Alexx", "380971234527");
 		
 		IHibernateDao<FbUser> fbUserService = new FbUserService(HibernateUtil.getInstance().getSessionFactory());
-		fbUser = fbUserService.save(fbUser);
-		fbUser1 = fbUserService.save(fbUser1);
-		fbUser = fbUserService.save(fbUser);
+//		fbUser = fbUserService.save(fbUser);
+//		fbUser1 = fbUserService.save(fbUser1);
+//		fbUser = fbUserService.save(fbUser);
 		
 		List<FbUser> fbUsers = fbUserService.getAll();
 		System.out.println(fbUsers.size());

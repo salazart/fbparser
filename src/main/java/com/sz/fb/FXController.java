@@ -20,6 +20,7 @@ import javafx.scene.control.TextField;
 import javafx.scene.web.WebView;
 
 public class FXController {
+	private static final String FB_URL = "https://www.facebook.com/";
 	private static final String CONFIG_PROPERTIES = "config.properties";
 	private boolean insertedPhone = false;
 	
@@ -50,9 +51,8 @@ public class FXController {
 	@FXML
 	private void goButtonClick() {
 		
-		String url = "https://www.facebook.com/";
 		if (urlField.getText().isEmpty()) {
-			urlField.setText(url);
+			urlField.setText(FB_URL);
 		}
 		System.out.println("go");
 		webView.getEngine().load(urlField.getText());
@@ -76,7 +76,7 @@ public class FXController {
 		System.out.println("find");
 
 		Timer timer = new Timer();
-		timer.schedule(new FindSaveTask(webView), 1000, 10000);
+		timer.schedule(new FindSaveTask(webView), 1000, 2000);
 	}
 
 }
